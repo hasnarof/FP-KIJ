@@ -7,7 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1scJxbMgyPoWznjVFdyGbot_Z97DpcEoX
 """
 
-# https://www.geeksforgeeks.org/find-and-return-index-of-given-string-in-a-multidimensional-array/
 def find_index(stringArr, keyString):
 	result = []
 	for i in range(len(stringArr)):
