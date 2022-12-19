@@ -248,14 +248,15 @@ def blocks_plaintext(plaintext):
     len_blocks = int(len(plaintext)/num_bit)
     # print(len_blocks)
     # print(len(plaintext))
+    num_pad = 0
     if len(plaintext)%num_bit != 0:
       num_pad = len_blocks*num_bit + num_bit - len(plaintext)
       # print(num_pad)
       for i in range(num_pad):
-        plaintext += " "
+        plaintext += "0"
       len_blocks+=1
     blocks = [plaintext[num_bit*k:num_bit*k+num_bit] for k in range(len_blocks)]
-    return blocks
+    return blocks, num_pad
 
 def main():
     print("DES ECB Encryption-Decryption\n")
@@ -283,7 +284,7 @@ def main():
       key = str_to_hex(key)
 
     # pemecahan plaintext menjadi blok-blok sekaligus menambahkan padding jika panjangnya tidak kelipatan 16
-    blocks_enc = blocks_plaintext(plaintext)
+    blocks_enc, num_pad_enc = blocks_plaintext(plaintext)
 
     # generate key
     key_internal, key_hexa = key_generation(key)
@@ -303,7 +304,7 @@ def main():
       print("Ciphertext Akhir (dalam Karakter Teks): ", hex_to_str(ciphertext))
 
     print("\nDecryption")
-    blocks_dec = blocks_plaintext(ciphertext)
+    blocks_dec, num_pad_dec = blocks_plaintext(ciphertext)
     text = ''
     i=0
     for b in blocks_dec:
@@ -311,9 +312,16 @@ def main():
       text = text + pt
       # print("Plaintext ", str(i), " ", pt)
       i+=1
-    print("Plaintext Asli (dalam Hex): ", text)
+    if num_pad_enc == 0:
+      print("Plaintext Asli (dalam Hex): ", text)
+    else:
+      print("Plaintext Asli (dalam Hex): ", text[:-num_pad_enc])
     if type_pt == '2':
-      print("Plaintext Asli (dalam Karakter Teks): ", hex_to_str(text))
+      if num_pad_enc == 0:
+        print("Plaintext Asli (dalam Karakter Teks): ", hex_to_str(text))
+      else:
+        num_pad_enc = int(num_pad_enc/2)
+        print("Plaintext Asli (dalam Karakter Teks): ", hex_to_str(text)[:-num_pad_enc])
     
 
 if __name__ == "__main__":
