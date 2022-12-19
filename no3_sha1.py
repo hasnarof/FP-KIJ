@@ -102,4 +102,4 @@ if __name__ == '__main__':
     
     sha1Hash = SHA1Hash()
     hashResult = sha1Hash.mainHash(plaintext)
-    print(hashResult)
+    print("\nHash SHA-1 Result: ", hashResult)
